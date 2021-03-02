@@ -30,11 +30,11 @@ socket.on('tree', function(data) {
         // back btn
         $('<img>').addClass('gallery-back').attr('src', 'images/back.png').appendTo(title).on('click touchstart', () => {
 
-            $('.gallery').animate({ opacity: 0 }, 300, () => {
+            $('.gallery').animate({ opacity: 0 }, 200, () => {
                 $('.gallery').removeClass('visible')
             })
             $('#menu').addClass('visible')
-            $('#menu').animate({ opacity: 1 }, 600)
+            $('#menu').animate({ opacity: 1 }, 400)
 
         })
 
@@ -78,12 +78,16 @@ socket.on('tree', function(data) {
 
                 // Start
                 $('#player').addClass('visible')
-                $('#player').animate({ opacity: 1 }, 400, () => {
+                $('#player').animate({ opacity: 1 }, 300, () => {
                     vidplayer.trigger('play')
 
+                    var lastTime = (new Date()).getTime();
                     vidplayer.on('timeupdate', () => {
-                        const percent = (vidplayer[0].currentTime / vidplayer[0].duration) * 100;
-                        progressbar.animate({ 'width': percent + '%' }, 200)
+                        const percent = Math.ceil((vidplayer[0].currentTime / vidplayer[0].duration) * 100);
+                        progressbar.finish()
+                        var now = (new Date()).getTime();
+                        progressbar.animate({ 'width': percent + '%' }, now - lastTime, 'linear')
+                        lastTime = now
                     });
 
                     vidplayer.on('ended', () => {

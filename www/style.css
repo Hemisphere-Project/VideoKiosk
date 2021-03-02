@@ -209,7 +209,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 10px;
+    height: 6px;
     background-color: #A4DDEA;
 }
 
@@ -221,8 +221,8 @@ body {
 
 .close {
     position: absolute;
-    right: 20px;
-    top: 30px;
+    right: 30px;
+    top: 20px;
     width: 50px;
     height: 50px;
 }
@@ -237,9 +237,9 @@ body {
 }
 
 .close:before {
-    transform: rotate(45deg);
+    transform: translate(25px, 0px) rotate(45deg);
 }
 
 .close:after {
-    transform: rotate(-45deg);
+    transform: translate(25px, 0px) rotate(-45deg);
 }
