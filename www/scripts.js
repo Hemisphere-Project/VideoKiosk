@@ -83,7 +83,7 @@ socket.on('tree', function(data) {
 
                     var lastTime = (new Date()).getTime();
                     vidplayer.on('timeupdate', () => {
-                        const percent = Math.ceil((vidplayer[0].currentTime / vidplayer[0].duration) * 100);
+                        const percent = (vidplayer[0].currentTime / vidplayer[0].duration) * 100;
                         progressbar.finish()
                         var now = (new Date()).getTime();
                         progressbar.animate({ 'width': percent + '%' }, now - lastTime, 'linear')
