@@ -42,16 +42,16 @@ body {
     height: 100%;
     overflow-y: auto;
     position: relative;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#mainframe::-webkit-scrollbar {
+    display: none;
 }
 
 
 /* LANGUAGE */
-
-.lang-menu {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-}
 
 .lang-btn {
     display: inline-block;
@@ -66,29 +66,40 @@ body {
 
 /* MENU  */
 
-.menu-content {
+#menu {
     /* background-color: bisque; */
-    height: 100%;
+    background-image: url('images/background.jpg');
+    background-size: cover;
     display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
 }
 
-.subject {
+#menu.visible {
+    display: block;
+}
+
+.topic {
     background-color: burlywood;
     position: absolute;
     padding: 10px;
 }
 
-.subject-1 {
+.topic-1 {
     top: 15%;
     left: 10%;
 }
 
-.subject-2 {
+.topic-2 {
     top: 40%;
     right: 10%;
 }
 
-.subject-3 {
+.topic-3 {
     top: 75%;
     left: 40%;
 }
@@ -102,11 +113,16 @@ body {
     /* margin: auto; */
     margin: 100px auto;
     background-color: #A4DDEA;
-    display: grid;
+    display: none;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
     row-gap: 30px;
     column-gap: 100px;
+    opacity: 0;
+}
+
+.gallery.visible {
+    display: grid;
 }
 
 .gallery-title {
@@ -161,6 +177,69 @@ body {
 
 .video-legend {
     padding: 5px 0;
-    background-color: #A4DDEA;
     /* background-color: #A4DDEA; */
+}
+
+
+/* PLAYER  */
+
+#player {
+    background-color: black;
+    display: none;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 300;
+}
+
+#player.visible {
+    display: block;
+}
+
+.mediaplayer {
+    width: 100%;
+    height: 100%;
+}
+
+.progress {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background-color: #A4DDEA;
+}
+
+.progress .bar {
+    height: 100%;
+    width: 0%;
+    background-color: #00415E;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 30px;
+    width: 50px;
+    height: 50px;
+}
+
+.close:before,
+.close:after {
+    position: absolute;
+    content: ' ';
+    height: 50px;
+    width: 5px;
+    background-color: #A4DDEA;
+}
+
+.close:before {
+    transform: rotate(45deg);
+}
+
+.close:after {
+    transform: rotate(-45deg);
 }

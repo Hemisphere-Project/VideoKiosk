@@ -40,14 +40,8 @@ const getVideos = source =>
 
 function treeList() {
     var tree = {}
-    let lang = getDirectories(mediapath)
-    for (let l of lang) {
-        tree[l] = {}
-        let categories = getDirectories(mediapath + '/' + l)
-        for (let c of categories)
-            tree[l][c] = getVideos(mediapath + '/' + l + '/' + c)
-    }
-    console.log(tree)
+    for (let c of getDirectories(mediapath))
+        tree[c] = getVideos(mediapath + '/' + c)
     return tree
 }
 

@@ -10,95 +10,111 @@ var socket = io();
 socket.on('tree', function(data) {
     $('#mainframe').empty()
 
-    var firstL = false
+    let content = $('<div>').addClass('menu').appendTo('#mainframe')
+    var k = 1
 
-    // lang menu bar
-    var language = $('<div>').addClass('lang-menu').appendTo('#mainframe')
-
-    for (let lang in data) {
+    // topics
+    // for (let topic in data[lang]) {
+    for (let topic in data) {
 
         // remove x_ 
-        let l = lang
-        if (isNumeric(l.split('_')[0])) l = l.split('_')[1]
+        let s = topic
+        if (isNumeric(s.split('_')[0])) s = s.split('_')[1]
 
-        if (firstL === false) firstL = l
+        // gallery
+        let gallery = $('<div>').addClass('gallery gallery-' + k).appendTo('#mainframe')
 
-        // lang button
-        $('<div>').addClass('lang-btn lang-btn-' + l).html(l.toUpperCase()).appendTo(language).on('click touchstart', () => {
-            //select lang
-            $('.gallery').hide()
-            $('.menu-content').hide()
-            $('.menu-content-' + l).show()
+        // title
+        let title = $('<div>').addClass('gallery-title').html(s).appendTo(gallery)
+
+        // back btn
+        $('<img>').addClass('gallery-back').attr('src', 'images/back.png').appendTo(title).on('click touchstart', () => {
+
+            $('.gallery').animate({ opacity: 0 }, 300, () => {
+                $('.gallery').removeClass('visible')
+            })
+            $('#menu').addClass('visible')
+            $('#menu').animate({ opacity: 1 }, 600)
+
         })
 
-        // lang content
-        let content = $('<div>').addClass('menu-content menu-content-' + l).appendTo('#mainframe')
-        var k = 1
-
-        // subjects
-        for (let subject in data[lang]) {
-
+        // video grid
+        for (let video of data[topic]) {
             // remove x_ 
-            let s = subject
-            if (isNumeric(s.split('_')[0])) s = s.split('_')[1]
+            let nameV = video
+            if (isNumeric(nameV.split('_')[0])) nameV = nameV.split('_')[1]
+            nameV = nameV.split('.').slice(0, -1).join('.')
 
-            // gallery
-            let gallery = $('<div>').addClass('gallery gallery-' + l + '-' + k).appendTo('#mainframe')
+            // remove extension
+            let baseV = video.split('.').slice(0, -1).join('.')
 
-            // title
-            let title = $('<div>').addClass('gallery-title').html(s).appendTo(gallery)
+            // video cell
+            var vidCell = $('<div>').addClass('video-cell').appendTo(gallery)
 
-            // back btn
-            $('<img>').addClass('gallery-back').attr('src', 'images/back.png').appendTo(title)
+            // video preview
+            var vidPrev = $('<div>').addClass('video-preview').appendTo(vidCell)
+            $('<img>').addClass('video-snapshot').attr('src', '/media/' + topic + '/' + baseV + '.jpg').appendTo(vidPrev)
+            $('<div>').addClass('video-legend').html(nameV.toUpperCase()).appendTo(vidCell)
 
-            // video grid
-            for (let video of data[lang][subject]) {
-                // remove x_ 
-                let nameV = video
-                if (isNumeric(nameV.split('_')[0])) nameV = nameV.split('_')[1]
-                nameV = nameV.split('.').slice(0, -1).join('.')
+            // play btn
+            $('<img>').addClass('video-play').attr('src', 'images/play.png').appendTo(vidPrev).on('click touchstart', () => {
 
-                // remove ext
-                let baseV = video.split('.').slice(0, -1).join('.')
+                // Player
+                var vidplayer = $('<video>').addClass("mediaplayer").appendTo('#player')
+                $('<source>').attr('src', '/media/' + topic + '/' + video).attr('type', 'video/mp4').appendTo(vidplayer)
 
-                // video cell
-                var vidCell = $('<div>').addClass('video-cell').appendTo(gallery)
+                // Close btn
+                $('<div>').addClass('close').appendTo('#player').on('click touchstart', () => {
+                    vidplayer.trigger('pause')
+                    $('#player').animate({ opacity: 0 }, 300, () => {
+                        $('#player').removeClass('visible')
+                        $('#player').empty()
+                    })
+                })
 
-                // video preview
-                var vidPrev = $('<div>').addClass('video-preview').appendTo(vidCell)
-                $('<img>').addClass('video-snapshot').attr('src', '/media/' + lang + '/' + subject + '/' + baseV + '.jpg').appendTo(vidPrev)
-                $('<img>').addClass('video-play').attr('src', 'images/play.png').appendTo(vidPrev)
-                $('<div>').addClass('video-legend').html(nameV.toUpperCase()).appendTo(vidCell)
-            }
+                // Progress bar
+                var progressbar = $('<div>').addClass('bar')
+                $('<div>').addClass('progress').append(progressbar).appendTo('#player')
+
+                // Start
+                $('#player').addClass('visible')
+                $('#player').animate({ opacity: 1 }, 400, () => {
+                    vidplayer.trigger('play')
+
+                    vidplayer.on('timeupdate', () => {
+                        const percent = (vidplayer[0].currentTime / vidplayer[0].duration) * 100;
+                        progressbar.animate({ 'width': percent + '%' }, 200)
+                    });
+
+                    vidplayer.on('ended', () => {
+                        $('.close').click()
+                    })
+                })
+
+            })
+        }
 
 
-            // subject button
-            $('<div>').addClass('subject subject-' + k).html(s).appendTo(content).on('click touchstart', () => {
-                $('.menu-content').hide()
-                $('.gallery').hide()
-                gallery.show()
+        // topic button
+        $('<div>').addClass('topic topic-' + k).html(s).appendTo('#menu').on('click touchstart', () => {
+
+            gallery.addClass('visible')
+            gallery.animate({ display: 'grid', opacity: 1 }, 1000)
+
+            $('#menu').animate({ opacity: 0 }, 300, () => {
+                $('#menu').removeClass('visible')
             })
 
-            k += 1
-        }
+        })
+
+        k += 1
     }
 
-    // show first lang
-    if (firstL !== false) $('.lang-btn-' + firstL).click()
+    // Initial view
+    $('#menu').addClass('visible')
+    $('.gallery').removeClass('visible')
 
-    return;
-    for (let m of data) {
-        console.log(m)
-        if (m[1] == 'image') {
-            var img = $('<img />').addClass("media").attr('src', '/media/' + m[0])
-            $('<div>').addClass('carousel-cell').append(img).appendTo('#alldivs')
-        } else if (m[1] == 'video') {
-            var video = $('<video>').addClass("media")
-            $('<source>').attr('src', '/media/' + m[0]).attr('type', 'video/mp4').appendTo(video)
-            $('<div>').addClass('carousel-cell').append(video).appendTo('#alldivs')
-        }
 
-    }
 
 
 });
