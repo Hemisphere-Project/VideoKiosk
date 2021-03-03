@@ -68,8 +68,11 @@ body {
 
 #menu {
     /* background-color: bisque; */
-    background-image: url('images/background.jpg');
-    background-size: cover;
+    background-image: url('media/accueil.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
     display: none;
     position: fixed;
     top: 0;

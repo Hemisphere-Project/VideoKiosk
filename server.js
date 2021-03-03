@@ -12,19 +12,17 @@ var mediapath = "/data/media"
 var ext_images = ['jpg', 'jpeg', 'png', 'gif']
 var ext_videos = ['mp4']
 
-function mediaList() {
-    var liste = []
-    fs.readdirSync(mediapath)
-        .filter(f => !fs.lstatSync(mediapath + '/' + f).isDirectory())
-        .filter(f => !f.startsWith('.'))
-        .forEach(f => {
-            var ext = f.replace(/.*\./, '').toLowerCase();
-            if (ext_images.indexOf(ext) >= 0) liste.push([f, 'image'])
-            else if (ext_videos.indexOf(ext) >= 0) liste.push([f, 'video'])
-        })
-    return liste
+function isVideo(path) {
+    return (ext_videos.indexOf(path.replace(/.*\./, '').toLowerCase()) >= 0)
 }
 
+function isImage(path) {
+    return (ext_images.indexOf(path.replace(/.*\./, '').toLowerCase()) >= 0)
+}
+
+function isMedia(path) {
+    return isImage(path) || isVideo(path)
+}
 
 // List directories
 const getDirectories = source =>
@@ -36,12 +34,12 @@ const getVideos = source =>
     readdirSync(source, { withFileTypes: true })
     .filter(dirent => !dirent.isDirectory())
     .map(dirent => dirent.name)
-    .filter(dirent => ext_videos.indexOf(dirent.replace(/.*\./, '').toLowerCase()) >= 0)
+    .filter(dirent => isVideo(dirent))
 
-function treeList() {
+function treeList(path) {
     var tree = {}
-    for (let c of getDirectories(mediapath))
-        tree[c] = getVideos(mediapath + '/' + c)
+    for (let c of getDirectories(path))
+        tree[c] = getVideos(path + '/' + c)
     return tree
 }
 
@@ -50,7 +48,7 @@ function treeList() {
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/www/index.html');
 });
-app.use(express.static('www'))
+app.use(express.static(__dirname + '/www'))
 app.use('/media', express.static(mediapath))
 
 // Socketio
@@ -58,7 +56,7 @@ io.on('connection', (socket) => {
     console.log('a user connected');
 
     // Send list
-    socket.emit('tree', treeList())
+    socket.emit('tree', treeList(mediapath))
 
     socket.on('disconnect', () => {
         console.log('user disconnected');
