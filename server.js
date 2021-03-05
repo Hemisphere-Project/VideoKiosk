@@ -64,6 +64,6 @@ io.on('connection', (socket) => {
 });
 
 // Go
-http.listen(5200, () => {
-    console.log('listening on *:5200');
+http.listen(5000, () => {
+    console.log('listening on *:5000');
 });
