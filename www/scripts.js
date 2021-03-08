@@ -113,7 +113,7 @@ socket.on('tree', function(data) {
                     });
 
                     vidplayer.on('ended', () => {
-                        $('.close').trigger('click')
+                        // $('.close').trigger('click')
                     })
                 })
             })
