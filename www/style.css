@@ -90,6 +90,7 @@ body {
     background-color: burlywood;
     position: absolute;
     padding: 10px;
+    opacity: 1;
 }
 
 .topic-1 {
@@ -148,6 +149,7 @@ body {
     left: 0px;
     height: 50px;
     line-height: 50px;
+    opacity: 1;
 }
 
 .video-cell {
@@ -228,6 +230,7 @@ body {
     top: 20px;
     width: 50px;
     height: 50px;
+    opacity: 1;
 }
 
 .close:before,

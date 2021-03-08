@@ -4,6 +4,28 @@ function isNumeric(str) {
         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
 }
 
+// Toggle .active instead of :active (touch compat)
+$.fn.extend({
+    touchclick: function(touchevent, clickevent) {
+        if (touchevent === undefined) touchevent = 'tap'
+        if (clickevent === undefined) clickevent = 'click'
+        return this.each(function() {
+            $(this).hammer()
+                .on(touchevent, () => {
+                    $(this).trigger('click')
+                })
+                .on(clickevent, () => {
+                    $(this).css('opacity', '0.5')
+                    $(this).animate({ opacity: 1 }, 300)
+                })
+
+        })
+    }
+})
+
+
+// Animate base time
+var TIMING = 150
 
 var socket = io();
 
@@ -28,15 +50,15 @@ socket.on('tree', function(data) {
         let title = $('<div>').addClass('gallery-title').html(s).appendTo(gallery)
 
         // back btn
-        $('<img>').addClass('gallery-back').attr('src', 'images/back.png').appendTo(title).on('click touchstart', () => {
-
-            $('.gallery').animate({ opacity: 0 }, 200, () => {
+        $('<img>').touchclick('touchstart').addClass('gallery-back').attr('src', 'images/back.png').appendTo(title).on('click', () => {
+            $('.gallery').animate({ opacity: 0 }, TIMING, () => {
                 $('.gallery').removeClass('visible')
             })
             $('#menu').addClass('visible')
-            $('#menu').animate({ opacity: 1 }, 400)
-
+            $('#menu').animate({ opacity: 1 }, 2 * TIMING)
         })
+
+
 
         // video grid
         for (let video of data[topic]) {
@@ -54,19 +76,19 @@ socket.on('tree', function(data) {
             // video preview
             var vidPrev = $('<div>').addClass('video-preview').appendTo(vidCell)
             $('<img>').addClass('video-snapshot').attr('src', '/media/' + topic + '/' + baseV + '.jpg').appendTo(vidPrev)
+            $('<img>').addClass('video-play').attr('src', 'images/play.png').appendTo(vidPrev)
             $('<div>').addClass('video-legend').html(nameV.toUpperCase()).appendTo(vidCell)
 
-            // play btn
-            $('<img>').addClass('video-play').attr('src', 'images/play.png').appendTo(vidPrev).on('click touchstart', () => {
+            vidPrev.touchclick('tap').on('click', () => {
 
                 // Player
                 var vidplayer = $('<video>').addClass("mediaplayer").appendTo('#player')
                 $('<source>').attr('src', '/media/' + topic + '/' + video).attr('type', 'video/mp4').appendTo(vidplayer)
 
                 // Close btn
-                $('<div>').addClass('close').appendTo('#player').on('click touchstart', () => {
+                $('<div>').touchclick('touchstart').addClass('close').appendTo('#player').on('click', () => {
                     vidplayer.trigger('pause')
-                    $('#player').animate({ opacity: 0 }, 300, () => {
+                    $('#player').animate({ opacity: 0 }, 2 * TIMING, () => {
                         $('#player').removeClass('visible')
                         $('#player').empty()
                     })
@@ -78,7 +100,7 @@ socket.on('tree', function(data) {
 
                 // Start
                 $('#player').addClass('visible')
-                $('#player').animate({ opacity: 1 }, 300, () => {
+                $('#player').animate({ opacity: 1 }, 2 * TIMING, () => {
                     vidplayer.trigger('play')
 
                     var lastTime = (new Date()).getTime();
@@ -91,21 +113,21 @@ socket.on('tree', function(data) {
                     });
 
                     vidplayer.on('ended', () => {
-                        $('.close').click()
+                        $('.close').trigger('click')
                     })
                 })
-
             })
+
         }
 
 
         // topic button
-        $('<div>').addClass('topic topic-' + k).html(s).appendTo('#menu').on('click touchstart', () => {
+        $('<div>').touchclick('touchstart').addClass('topic topic-' + k).html(s).appendTo('#menu').on('click', () => {
 
             gallery.addClass('visible')
-            gallery.animate({ display: 'grid', opacity: 1 }, 1000)
+            gallery.animate({ display: 'grid', opacity: 1 }, 3 * TIMING)
 
-            $('#menu').animate({ opacity: 0 }, 300, () => {
+            $('#menu').animate({ opacity: 0 }, TIMING, () => {
                 $('#menu').removeClass('visible')
             })
 
