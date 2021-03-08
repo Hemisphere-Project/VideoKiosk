@@ -47,7 +47,7 @@ socket.on('tree', function(data) {
         let gallery = $('<div>').addClass('gallery gallery-' + k).appendTo('#mainframe')
 
         // title
-        let title = $('<div>').addClass('gallery-title').html(s).appendTo(gallery)
+        let title = $('<div>').addClass('gallery-title').html('').appendTo(gallery)
 
         // back btn
         $('<img>').touchclick('touchstart').addClass('gallery-back').attr('src', 'images/back.png').appendTo(title).on('click', () => {
@@ -86,7 +86,7 @@ socket.on('tree', function(data) {
                 $('<source>').attr('src', '/media/' + topic + '/' + video).attr('type', 'video/mp4').appendTo(vidplayer)
 
                 // Close btn
-                $('<div>').touchclick('touchstart').addClass('close').appendTo('#player').on('click', () => {
+                $('<img>').touchclick('touchstart').addClass('close').attr('src', 'images/cross.png').appendTo('#player').on('click', () => {
                     vidplayer.trigger('pause')
                     $('#player').animate({ opacity: 0 }, 2 * TIMING, () => {
                         $('#player').removeClass('visible')
@@ -105,9 +105,9 @@ socket.on('tree', function(data) {
 
                     var lastTime = (new Date()).getTime();
                     vidplayer.on('timeupdate', () => {
-                        const percent = (vidplayer[0].currentTime / vidplayer[0].duration) * 100;
+                        var now = (new Date()).getTime()
+                        const percent = (vidplayer[0].currentTime / vidplayer[0].duration) * 100
                         progressbar.finish()
-                        var now = (new Date()).getTime();
                         progressbar.animate({ 'width': percent + '%' }, now - lastTime, 'linear')
                         lastTime = now
                     });
@@ -122,16 +122,18 @@ socket.on('tree', function(data) {
 
 
         // topic button
-        $('<div>').touchclick('touchstart').addClass('topic topic-' + k).html(s).appendTo('#menu').on('click', () => {
+        $('<img>')
+            .attr('src', 'media/' + topic + '.png').attr('alt', s)
+            .touchclick('touchstart').addClass('topic topic-' + k).html(s).appendTo('#menu').on('click', () => {
 
-            gallery.addClass('visible')
-            gallery.animate({ display: 'grid', opacity: 1 }, 3 * TIMING)
+                gallery.addClass('visible')
+                gallery.animate({ display: 'grid', opacity: 1 }, 3 * TIMING)
 
-            $('#menu').animate({ opacity: 0 }, TIMING, () => {
-                $('#menu').removeClass('visible')
+                $('#menu').animate({ opacity: 0 }, TIMING, () => {
+                    $('#menu').removeClass('visible')
+                })
+
             })
-
-        })
 
         k += 1
     }

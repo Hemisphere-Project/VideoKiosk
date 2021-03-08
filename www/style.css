@@ -1,6 +1,16 @@
 @font-face {
-    font-family: 'Roboto';
-    src: url('fonts/Roboto-Black.ttf');
+    font-family: 'GGcanut-bold';
+    src: url('fonts/GGcanut_Extra-Bold.otf');
+}
+
+@font-face {
+    font-family: 'GGcanut-medium';
+    src: url('fonts/GGcanut_Medium.otf');
+}
+
+@font-face {
+    font-family: 'GGcanut-regular';
+    src: url('fonts/GGcanut_Regular.otf');
 }
 
 body {
@@ -13,7 +23,8 @@ body {
     left: 0;
     right: 0;
     overflow: hidden;
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'GGcanut-bold', Arial, sans-serif;
+    font-size: 22px;
     color: #00415E;
 }
 
@@ -87,25 +98,11 @@ body {
 }
 
 .topic {
-    background-color: burlywood;
+    background-color: transparent;
     position: absolute;
     padding: 10px;
     opacity: 1;
-}
-
-.topic-1 {
-    top: 15%;
-    left: 10%;
-}
-
-.topic-2 {
-    top: 40%;
-    right: 10%;
-}
-
-.topic-3 {
-    top: 75%;
-    left: 40%;
+    height: auto;
 }
 
 
@@ -113,15 +110,15 @@ body {
 
 .gallery {
     position: relative;
-    width: 1200px;
+    width: calc(100% - 200px);
     /* margin: auto; */
-    margin: 100px auto;
+    margin: 115px auto;
     background-color: #A4DDEA;
     display: none;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
     row-gap: 30px;
-    column-gap: 100px;
+    column-gap: 170px;
     opacity: 0;
 }
 
@@ -134,7 +131,7 @@ body {
     height: 50px;
     line-height: 50px;
     top: 0;
-    padding: 15px 0;
+    padding: 30px 0 15px;
     /* padding-top: 10px;
     padding-bottom: 10px; */
     width: 1200px;
@@ -174,10 +171,10 @@ body {
 }
 
 .video-play {
-    width: 65px;
+    width: 100px;
     position: absolute;
-    left: calc(50% - 37px);
-    top: calc(50% - 37px);
+    left: calc(50% - 50px);
+    top: calc(50% - 50px);
 }
 
 .video-legend {
@@ -214,7 +211,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 6px;
+    height: 10px;
     background-color: #A4DDEA;
 }
 
@@ -226,26 +223,7 @@ body {
 
 .close {
     position: absolute;
-    right: 30px;
-    top: 20px;
-    width: 50px;
-    height: 50px;
+    right: 33px;
+    top: 30px;
     opacity: 1;
-}
-
-.close:before,
-.close:after {
-    position: absolute;
-    content: ' ';
-    height: 50px;
-    width: 5px;
-    background-color: #A4DDEA;
-}
-
-.close:before {
-    transform: translate(25px, 0px) rotate(45deg);
-}
-
-.close:after {
-    transform: translate(25px, 0px) rotate(-45deg);
 }
