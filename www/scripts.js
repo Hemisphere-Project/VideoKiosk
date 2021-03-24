@@ -23,6 +23,13 @@ $.fn.extend({
     }
 })
 
+// Prevent ZOOM
+document.addEventListener('touchmove', e => {
+    if (e.touches.length > 1) {
+        e.preventDefault();
+    }
+}, { passive: false })
+
 
 // Animate base time
 var TIMING = 150
@@ -119,7 +126,7 @@ socket.on('tree', function(data) {
                     });
 
                     vidplayer.on('ended', () => {
-                        // $('.close').trigger('click')
+                        $('.close').trigger('click')
                     })
                 })
             })
@@ -177,4 +184,4 @@ var inactivityTime = function() {
         timer = setTimeout(timerElapsed, 1 * 10 * 1000); // 1 mins
     }
 };
-// inactivityTime()
+inactivityTime()
