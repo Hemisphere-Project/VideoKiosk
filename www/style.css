@@ -141,9 +141,19 @@ body {
     z-index: 100;
 }
 
+.title,
+.subtitle {
+    line-height: 30px;
+}
+
+.subtitle {
+    font-family: 'GGcanut-regular', Arial, sans-serif;
+}
+
 .gallery-back {
     position: absolute;
     left: 0px;
+    top: 60px;
     height: 65px;
     line-height: 65px;
     opacity: 1;

@@ -47,7 +47,9 @@ socket.on('tree', function(data) {
         let gallery = $('<div>').addClass('gallery gallery-' + k).appendTo('#mainframe')
 
         // title
-        let title = $('<div>').addClass('gallery-title').html('').appendTo(gallery)
+        let title = $('<div>').addClass('gallery-title').appendTo(gallery)
+        $('<div>').addClass('title title-' + k).appendTo(title)
+        $('<div>').addClass('subtitle subtitle-' + k).appendTo(title)
 
         // back btn
         $('<img>').touchclick('touchstart').addClass('gallery-back').attr('src', 'images/back.png').appendTo(title).on('click', () => {
