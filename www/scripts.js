@@ -29,6 +29,10 @@ var TIMING = 150
 
 var socket = io();
 
+socket.on('reset', (data) => {
+    location.reload();
+})
+
 socket.on('tree', function(data) {
     $('#mainframe').empty()
 

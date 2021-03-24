@@ -28,7 +28,7 @@ function isMedia(path) {
 // Watch file change
 chokidar.watch(mediapath).on('all', (event, path) => {
     console.log(event, path);
-    io.emit('tree', treeList(mediapath))
+    io.emit('reset')
 });
 
 
