@@ -6,6 +6,7 @@ var io = require('socket.io')(http);
 const { readdirSync } = require('fs')
 const fs = require('fs')
 const os = require('os')
+const chokidar = require('chokidar');
 
 // Media
 var mediapath = "/data/media"
@@ -23,6 +24,14 @@ function isImage(path) {
 function isMedia(path) {
     return isImage(path) || isVideo(path)
 }
+
+// Watch file change
+chokidar.watch(mediapath).on('all', (event, path) => {
+    console.log(event, path);
+    io.emit('tree', treeList(mediapath))
+});
+
+
 
 // List directories
 const getDirectories = source =>

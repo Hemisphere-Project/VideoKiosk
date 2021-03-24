@@ -17,6 +17,7 @@
     },
     "homepage": "https://github.com/Hemisphere-Project/VideoKiosk#readme",
     "dependencies": {
+        "chokidar": "^3.5.1",
         "express": "^4.17.1",
         "socket.io": "^3.0.4"
     }
