@@ -2,7 +2,7 @@
     font-family: 'GGcanut-bold';
     src: url('fonts/GGcanut_Extra-Bold.otf');
 }
- 
+
 @font-face {
     font-family: 'GGcanut-medium';
     src: url('fonts/GGcanut_Medium.otf');
@@ -118,6 +118,10 @@ body {
     height: auto;
 }
 
+.topic:active {
+    filter: contrast(0) sepia(100%) hue-rotate(0deg) brightness(120%) saturate(130%);
+}
+
 
 /* GALLERY  */
 
@@ -157,11 +161,13 @@ body {
 .title,
 .subtitle {
     line-height: 30px;
-    color: #D1B67D;
+    color: #00B5D1;
+    text-transform: uppercase;
 }
 
 .subtitle {
     font-family: 'GGcanut-regular', Arial, sans-serif;
+    font-size: 0.9em;
 }
 
 .gallery-back {
