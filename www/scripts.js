@@ -123,6 +123,7 @@ socket.on('tree', function(data) {
                         progressbar.finish()
                         progressbar.animate({ 'width': percent + '%' }, now - lastTime, 'linear')
                         lastTime = now
+                        timerReset()
                     });
 
                     vidplayer.on('ended', () => {
@@ -181,7 +182,7 @@ var inactivityTime = function() {
     function timerReset() {
         console.log("Reseting timer");
         clearTimeout(timer);
-        timer = setTimeout(timerElapsed, 1 * 10 * 1000); // 1 mins
+        timer = setTimeout(timerElapsed, 1 * 60 * 1000); // 1 mins
     }
 };
 inactivityTime()
