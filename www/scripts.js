@@ -24,11 +24,18 @@ $.fn.extend({
 })
 
 // Prevent ZOOM
-document.addEventListener('touchmove', e => {
+function preventZoom(e) {
+    $('.debug').html(e.touches.length + ' <br\>');
     if (e.touches.length > 1) {
         e.preventDefault();
+        $('.debug').append('prevented')
     }
-}, { passive: false })
+}
+
+document.addEventListener('touchmove', preventZoom, { passive: false })
+document.addEventListener('touchstart', preventZoom, { passive: false })
+
+
 
 
 // Animate base time

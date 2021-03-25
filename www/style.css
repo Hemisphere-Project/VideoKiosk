@@ -46,6 +46,19 @@ body {
     border: none;
 }
 
+.debug {
+    position: fixed;
+    opacity: 0.5;
+    z-index: 1000;
+    background-color: aliceblue;
+    color: black;
+    max-height: 30%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    display: none;
+}
+
 #mainframe {
     width: 100%;
     margin: auto;
